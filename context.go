@@ -31,6 +31,7 @@ type LineJoin int
 const (
 	LineJoinRound LineJoin = iota
 	LineJoinBevel
+	LineJoinMiter
 )
 
 type FillRule int
@@ -201,6 +202,10 @@ func (dc *Context) SetLineJoinRound() {
 
 func (dc *Context) SetLineJoinBevel() {
 	dc.lineJoin = LineJoinBevel
+}
+
+func (dc *Context) SetLineJoinMiter() {
+	dc.lineJoin = LineJoinMiter
 }
 
 func (dc *Context) SetFillRule(fillRule FillRule) {
@@ -402,6 +407,8 @@ func (dc *Context) joiner() raster.Joiner {
 		return raster.BevelJoiner
 	case LineJoinRound:
 		return raster.RoundJoiner
+	case LineJoinMiter:
+		return MiterJoiner
 	}
 	return nil
 }
